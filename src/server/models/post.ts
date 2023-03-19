@@ -1,6 +1,5 @@
 import {ObjectType, Field, InputType} from 'type-graphql'
 import {prop, getModelForClass} from '@typegoose/typegoose'
-import { IsNotEmpty, MinLength } from "class-validator";
 
 @ObjectType()
 export class Post {
@@ -8,11 +7,11 @@ export class Post {
     _id!: string;
 
     @Field(() => String)
-    @prop({ type: () => String, required: true, unique: true })
+    @prop({ type: () => String, required: true, unique: true, minlength: 5 })
     public title!: String;
 
     @Field(() => String)
-    @prop({ type: () => String, required: true })
+    @prop({ type: () => String, required: true, minlength: 10 })
     public desc!: String;
 
     @Field(() => String)
@@ -28,13 +27,12 @@ export class Post {
     public categories!: String;;
 }
 
+
 @InputType()
-export class updatePostInput {
-    @MinLength(5, { message: "Title must be at least 5 characters long" })
+export class postInput {
     @Field(() => String)
     title!: String;
-
-    @MinLength(10, { message: "Description must be at least 10 characters long" })
+    
     @Field(() => String)
     desc!: String;
     
@@ -44,28 +42,6 @@ export class updatePostInput {
     @Field(() => String)
     photo!: String;
     
-    @IsNotEmpty()
-    @Field(() => String)
-    categories!: String;
-}
-
-@InputType()
-export class createPostInput {
-    @MinLength(5, { message: "Title must be at least 5 characters long" })
-    @Field(() => String)
-    title!: String;
-    
-    @MinLength(10, { message: "Description must be at least 10 characters long" })
-    @Field(() => String)
-    desc!: String;
-    
-    @Field(() => String)
-    username!: String;
-    
-    @Field(() => String)
-    photo!: String;
-    
-    @IsNotEmpty()
     @Field(() => String)
     categories!: String;
 }

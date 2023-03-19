@@ -1,6 +1,5 @@
 import {ObjectType, Field, InputType} from 'type-graphql'
 import {prop, getModelForClass} from '@typegoose/typegoose'
-import { IsEmail, MinLength } from "class-validator";
 
 @ObjectType()
 export class User {
@@ -8,14 +7,14 @@ export class User {
     _id!: string;
     
     @Field(() => String)
-    @prop({ type: () => String, required: true, unique: true })
+    @prop({ type: () => String, required: true, unique: true, minlength: 3 })
     public username!: String;
 
     @Field(() => String)
     @prop({ type: () => String, required: true })
     public email!: String;
 
-    @prop({ type: () => String, required: true })
+    @prop({ type: () => String, required: true, minlength: 6 })
     public password!: String;
     
     @Field(() => String)
@@ -25,26 +24,21 @@ export class User {
 
 @InputType()
 export class loginInput {
-    @MinLength(3, { message: "Username must be at least 3 characters long" })
     @Field(() => String)
     username!: String;
     
-    @MinLength(6, { message: "Password must be at least 6 characters long" })
     @Field(() => String)
     password!: String;
 }
 
 @InputType()
 export class registerInput {
-    @MinLength(3, { message: "Username must be at least 3 characters long" })
     @Field(() => String)
     username!: String;
     
-    @IsEmail({}, { message: "Invalid email" })
     @Field(() => String)
     email!: String;
     
-    @MinLength(6, { message: "Password must be at least 6 characters long" })
     @Field(() => String)
     password!: String;
     

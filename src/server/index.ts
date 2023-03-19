@@ -3,10 +3,11 @@ import express from 'express';
 import 'reflect-metadata';
 import {ApolloServer} from 'apollo-server-express';
 import {buildSchema} from 'type-graphql';
-import { HelloResolver } from './resolvers/hello';
 import path from 'path';
 import mongoose from 'mongoose';
-import { PostResolver } from './resolvers/post';
+import {PostResolver} from "./resolvers/post";
+import {CategoryResolver} from "./resolvers/category";
+import { UserResolver } from './resolvers/user';
 
 const main = async () => {
 
@@ -17,7 +18,7 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [HelloResolver, PostResolver],
+            resolvers: [PostResolver, CategoryResolver, UserResolver],
             validate: false,
             emitSchemaFile: true,
         }),

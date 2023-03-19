@@ -3,10 +3,25 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Category {
+  _id: String!
+  name: String!
+}
+
+type FieldError {
+  field: String!
+  message: String!
+}
+
 type Mutation {
-  createPost(input: createPostInput!): Post!
+  createCategory(name: String!): Category
+  createPost(input: postInput!): PostResponse!
   deletePost(id: String!): Boolean!
-  updatePost(id: String!, input: updatePostInput!): Post
+  deleteUser(id: String!): Boolean!
+  login(input: loginInput!): UserResponse!
+  register(input: registerInput!): UserResponse!
+  updatePost(id: String!, input: postInput!): PostResponse!
+  updateUser(id: String!, input: registerInput!): UserResponse!
 }
 
 type Post {
@@ -18,13 +33,37 @@ type Post {
   username: String!
 }
 
-type Query {
-  hello: String!
-  post(id: String!): Post
-  posts: [Post!]!
+type PostResponse {
+  errors: [FieldError!]
+  post: Post
 }
 
-input createPostInput {
+type Query {
+  categories: [Category!]!
+  post(id: String!): PostResponse
+  posts: [Post!]!
+  user(id: String!): UserResponse
+  users: [User!]!
+}
+
+type User {
+  _id: String!
+  email: String!
+  photo: String!
+  username: String!
+}
+
+type UserResponse {
+  errors: [FieldError!]
+  user: User
+}
+
+input loginInput {
+  password: String!
+  username: String!
+}
+
+input postInput {
   categories: String!
   desc: String!
   photo: String!
@@ -32,10 +71,9 @@ input createPostInput {
   username: String!
 }
 
-input updatePostInput {
-  categories: String!
-  desc: String!
+input registerInput {
+  email: String!
+  password: String!
   photo: String!
-  title: String!
   username: String!
 }
