@@ -1,5 +1,5 @@
 import {Arg, Ctx, Query, Resolver, Mutation} from "type-graphql";
-import { BlogContext } from "../../types";
+import { BlogContext } from "../types";
 import {Category, CategoryModel} from "../models/category";
 
 @Resolver()

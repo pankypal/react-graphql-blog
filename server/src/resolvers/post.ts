@@ -7,7 +7,7 @@ import {
   Query,
   Resolver,
 } from "type-graphql";
-import { BlogContext } from "../../types";
+import { BlogContext } from "../types";
 import { FieldError } from "../models/fieldError";
 import { Post, PostModel, postInput } from "../models/post";
 

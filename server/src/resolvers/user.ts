@@ -7,7 +7,7 @@ import {
   Query,
   Resolver,
 } from "type-graphql";
-import { BlogContext } from "../../types";
+import { BlogContext } from "../types";
 import { User, UserModel, loginInput, registerInput } from "../models/user";
 import { FieldError } from "../models/fieldError";
 import bcrypt from "bcrypt";
@@ -23,6 +23,17 @@ class UserResponse {
 
 @Resolver()
 export class UserResolver {
+
+  @Query(() => User, {nullable: true})
+  async me(@Ctx() ctx: BlogContext): Promise<User | null> {
+    if (!ctx.req.session.userId) {
+      return null;
+    }
+
+    const user = await UserModel.findById(ctx.req.session.userId);
+    return user;
+  }
+
   @Query(() => [User])
   async users(@Ctx() ctx: BlogContext): Promise<User[]> {
     try {
@@ -163,6 +174,8 @@ export class UserResolver {
           ],
         };
       }
+
+      ctx.req.session.userId = user._id;
 
       return { user };
     } catch (err) {
